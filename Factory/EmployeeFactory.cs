@@ -1,4 +1,6 @@
-﻿public class EmployeeFactory : IEmployeeFactory
+﻿using employee.Employee;
+
+public class EmployeeFactory : IEmployeeFactory
 {
     private readonly INationalIdValidator _codeValidator;
     private readonly IBaseSalaryValidator _salaryValidator;
@@ -17,7 +19,7 @@
         _calculator = calculator;
     }
 
-    public IEmployee Create(EmployeeType type, string firstName, string lastName, string nationalId,
+    public AbstractEmployee Create(EmployeeType type, string firstName, string lastName, string nationalId,
         decimal baseSalary, int level, decimal totalHours, decimal extraTime)
     {
         var errors = new List<string>();
@@ -43,13 +45,12 @@
 
         return type switch
         {
-            EmployeeType.Simple => new SimpleEmployee(_calculator, firstName, lastName, nationalId, baseSalary, level, totalHours, extraTime),
-            EmployeeType.Senior => new SeniorEmployee(_calculator, firstName, lastName, nationalId, baseSalary, level, totalHours, extraTime),
-            EmployeeType.SectionManager => new SectionManager(_calculator, firstName, lastName, nationalId, baseSalary, level, totalHours, extraTime),
-            EmployeeType.DepartmentManager => new DepartmentManager(_calculator, firstName, lastName, nationalId, baseSalary, level, totalHours, extraTime),
-            EmployeeType.VicePresident => new VicePresident(_calculator, firstName, lastName, nationalId, baseSalary, level, totalHours, extraTime),
-            EmployeeType.CEO => new CEO(_calculator, firstName, lastName, nationalId, baseSalary, totalHours, extraTime),
-
+            EmployeeType.Simple => new SimpleEmployee(_calculator) { FirstName = firstName, LastName = lastName, NationalId = nationalId, BaseSalary = baseSalary, Level = level, TotalHours = totalHours, ExtraHours = extraTime },
+            EmployeeType.Senior => new SeniorEmployee(_calculator) { FirstName = firstName, LastName = lastName, NationalId = nationalId, BaseSalary = baseSalary, Level = level, TotalHours = totalHours, ExtraHours = extraTime },
+            EmployeeType.SectionManager => new SectionManager(_calculator) { FirstName = firstName, LastName = lastName, NationalId = nationalId, BaseSalary = baseSalary, Level = level, TotalHours = totalHours, ExtraHours = extraTime },
+            EmployeeType.DepartmentManager => new DepartmentManager(_calculator) { FirstName = firstName, LastName = lastName, NationalId = nationalId, BaseSalary = baseSalary, Level = level, TotalHours = totalHours, ExtraHours = extraTime },
+            EmployeeType.VicePresident => new VicePresident(_calculator) { FirstName = firstName, LastName = lastName, NationalId = nationalId, BaseSalary = baseSalary, Level = level, TotalHours = totalHours, ExtraHours = extraTime },
+            EmployeeType.CEO => new CEO(_calculator) { FirstName = firstName, LastName = lastName, NationalId = nationalId, BaseSalary = baseSalary, Level = level, TotalHours = totalHours, ExtraHours = extraTime },
             _ => throw new ArgumentException("Employee type is invalid.")
         };
     }

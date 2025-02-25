@@ -21,11 +21,8 @@ try
         1,
         160,
         20);
-
+    Console.WriteLine(employee);
     Console.WriteLine($"Salary: {employee.CalculateSalary():N0} T");
-    Console.WriteLine($"Name: {employee.FirstName} {employee.LastName}");
-    Console.WriteLine($"National Id: {employee.NationalId}");
-
 }
 catch (Exception ex)
 {
